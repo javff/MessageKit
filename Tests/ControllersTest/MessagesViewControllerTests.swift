@@ -55,11 +55,6 @@ class MessagesViewControllerTests: XCTestCase {
 
     // MARK: - Test
 
-    func testViewDidLoad_shouldSetDelegateAndDataSourceToTheSameObject() {
-        XCTAssertEqual(sut.messagesCollectionView.delegate as? MessagesViewController,
-                       sut.messagesCollectionView.dataSource as? MessagesViewController)
-    }
-
     func testNumberOfSectionWithoutData_isZero() {
         let messagesDataSource = MockMessagesDataSource()
         sut.messagesCollectionView.messagesDataSource = messagesDataSource
@@ -171,6 +166,23 @@ class MessagesViewControllerTests: XCTestCase {
 
         XCTAssertNotNil(cell)
         XCTAssertTrue(cell is LocationMessageCell)
+    }
+
+    func testCellForItemWithAudioData_returnsAudioMessageCell() {
+        let messagesDataSource = MockMessagesDataSource()
+        sut.messagesCollectionView.messagesDataSource = messagesDataSource
+        messagesDataSource.messages.append(MockMessage(audioURL: URL.init(fileURLWithPath: ""),
+                                                       duration: 4.0,
+                                                       sender: messagesDataSource.senders[0],
+                                                       messageId: "test_id"))
+
+        sut.messagesCollectionView.reloadData()
+
+        let cell = sut.messagesCollectionView.dataSource?.collectionView(sut.messagesCollectionView,
+                                                                         cellForItemAt: IndexPath(item: 0, section: 0))
+
+        XCTAssertNotNil(cell)
+        XCTAssertTrue(cell is AudioMessageCell)
     }
 
     // MARK: - Assistants

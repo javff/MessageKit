@@ -127,7 +127,7 @@ open class MessageLabel: UILabel {
     public static var defaultAttributes: [NSAttributedString.Key: Any] = {
         return [
             NSAttributedString.Key.foregroundColor: UIColor.darkText,
-            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
             NSAttributedString.Key.underlineColor: UIColor.darkText
         ]
     }()
@@ -178,7 +178,7 @@ open class MessageLabel: UILabel {
 
     open override func drawText(in rect: CGRect) {
 
-        let insetRect = rect.inset(by: textInsets)
+        let insetRect = UIEdgeInsetsInsetRect(rect, textInsets)
         textContainer.size = CGSize(width: insetRect.width, height: rect.height)
 
         let origin = insetRect.origin
